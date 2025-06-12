@@ -15,94 +15,69 @@ class _AddEquipmentFormState extends State<AddEquipmentForm> {
 
   final DBHelper _dbHelper = DBHelper();
 
+  void _submitForm() async {
+    String nama = _namaAlatController.text.trim();
+    String merek = _merekAlatController.text.trim();
+    String seri = _seriAlatController.text.trim();
+
+    if (nama.isEmpty || merek.isEmpty || seri.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('All fields are required!'), backgroundColor: Colors.orangeAccent),
+      );
+      return;
+    }
+    try {
+      await _dbHelper.insertPeralatan(
+        namaAlat: nama,
+        merekAlat: merek,
+        seriAlat: seri,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Equipment added successfully!'), backgroundColor: Colors.green),
+      );
+      Navigator.pop(context);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to add equipment: $e'), backgroundColor: Colors.redAccent),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Equipment'),
-        centerTitle: true,
+        title: const Text('Add New Equipment'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 16),
-              TextField(
+              TextFormField(
                 controller: _namaAlatController,
-                decoration: const InputDecoration(
-                  labelText: 'Equipment Name',
-                  border: OutlineInputBorder(),
-                ),
+                decoration: const InputDecoration(hintText: 'Equipment Name'),
               ),
               const SizedBox(height: 16),
-              TextField(
+              TextFormField(
                 controller: _merekAlatController,
-                decoration: const InputDecoration(
-                  labelText: 'Brand',
-                  border: OutlineInputBorder(),
-                ),
+                decoration: const InputDecoration(hintText: 'Brand'),
               ),
               const SizedBox(height: 16),
-              TextField(
+              TextFormField(
                 controller: _seriAlatController,
-                decoration: const InputDecoration(
-                  labelText: 'Serial Number',
-                  border: OutlineInputBorder(),
-                ),
+                decoration: const InputDecoration(hintText: 'Serial Number'),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 32),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
-                onPressed: () async {
-                  String nama = _namaAlatController.text.trim();
-                  String merek = _merekAlatController.text.trim();
-                  String seri = _seriAlatController.text.trim();
-
-                  if (nama.isEmpty || merek.isEmpty || seri.isEmpty) {
-                    _showSnackBar(context, 'All fields are required!', isError: true);
-                    return;
-                  }
-
-                  try {
-                    await _dbHelper.insertPeralatan(
-                      namaAlat: nama,
-                      merekAlat: merek,
-                      seriAlat: seri,
-                    );
-
-                    _showSnackBar(context, 'Equipment added successfully!');
-                    _namaAlatController.clear();
-                    _merekAlatController.clear();
-                    _seriAlatController.clear();
-                  } catch (e) {
-                    _showSnackBar(context, 'Failed to add equipment: $e', isError: true);
-                  }
-                },
+                onPressed: _submitForm,
                 child: const Text('Add Equipment'),
-
               )
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  void _showSnackBar(BuildContext context, String message, {bool isError = false}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: isError ? Colors.redAccent : Colors.green,
-        behavior: SnackBarBehavior.floating,
       ),
     );
   }

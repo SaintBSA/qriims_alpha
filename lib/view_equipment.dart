@@ -51,10 +51,14 @@ class _ViewPeralatanPageState extends State<ViewPeralatanPage> {
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: ListTile(
+                    // ADD THIS LINE TO ADJUST THE PADDING
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+
                     title: Text(alat['nama_alat'] ?? 'No Name'),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const SizedBox(height: 4), // You can also add space between text lines
                         Text('Brand: ${alat['merek_alat']}'),
                         Text('Serial No: ${alat['seri_alat']}'),
                       ],

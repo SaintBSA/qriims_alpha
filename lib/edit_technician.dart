@@ -53,7 +53,10 @@ class _EditTechnicianPageState extends State<EditTechnicianPage> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Technician data updated successfully')),
+          const SnackBar(
+            content: Text('Technician data updated successfully'),
+            backgroundColor: Colors.green,
+          ),
         );
         Navigator.pop(context);
       }
@@ -64,59 +67,59 @@ class _EditTechnicianPageState extends State<EditTechnicianPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Edit Technician')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              TextFormField(
-                controller: _namaController,
-                decoration: const InputDecoration(labelText: 'Technician Name'),
-                validator: (value) => value == null || value.isEmpty ? 'Required field' : null,
-              ),
-              TextFormField(
-                controller: _nikController,
-                decoration: const InputDecoration(labelText: 'NIK'),
-                keyboardType: TextInputType.number,
-                validator: (value) => value == null || value.isEmpty ? 'Required field' : null,
-              ),
-              TextFormField(
-                controller: _teleponController,
-                decoration: const InputDecoration(labelText: 'Phone Number'),
-                keyboardType: TextInputType.phone,
-                validator: (value) => value == null || value.isEmpty ? 'Required field' : null,
-              ),
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) => value == null || value.isEmpty ? 'Required field' : null,
-              ),
-              TextFormField(
-                controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
-                obscureText: true,
-                validator: (value) => value == null || value.isEmpty ? 'Required field' : null,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  // Menggunakan warna utama dari tema
-                  backgroundColor: Theme.of(context).primaryColor,
-                  // Menggunakan warna teks yang kontras (hitam)
-                  foregroundColor: Colors.white,
-                  // Membuat tombol lebih lebar dan tinggi
-                  minimumSize: const Size(double.infinity, 50),
-                  // Menggunakan radius yang sama dengan tema
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _namaController,
+                  decoration: const InputDecoration(hintText: 'Technician Name'),
+                  validator: (value) => value == null || value.isEmpty ? 'This field is required' : null,
                 ),
-                onPressed: _updateTechnician,
-                child: const Text('Save Changes'),
-              ),
-            ],
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _nikController,
+                  decoration: const InputDecoration(hintText: 'NIK'),
+                  keyboardType: TextInputType.number,
+                  validator: (value) => value == null || value.isEmpty ? 'This field is required' : null,
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _teleponController,
+                  decoration: const InputDecoration(hintText: 'Phone Number'),
+                  keyboardType: TextInputType.phone,
+                  validator: (value) => value == null || value.isEmpty ? 'This field is required' : null,
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(hintText: 'Email'),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return 'This field is required';
+                    if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) return 'Please enter a valid email';
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: const InputDecoration(hintText: 'Password'),
+                  obscureText: true,
+                  validator: (value) => value == null || value.isEmpty ? 'This field is required' : null,
+                ),
+                const SizedBox(height: 32),
+                ElevatedButton(
+                  onPressed: _updateTechnician,
+                  child: const Text('Save Changes'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

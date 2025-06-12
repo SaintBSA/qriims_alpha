@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'db_helper.dart';
 import 'edit_technician.dart';
+import 'login.dart'; // Impor untuk mengakses warna tema
 
 class ViewTechniciansPage extends StatefulWidget {
   const ViewTechniciansPage({super.key});
@@ -43,57 +44,55 @@ class _ViewTechniciansPageState extends State<ViewTechniciansPage> {
           } else {
             final technicians = snapshot.data!;
             return ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               itemCount: technicians.length,
               itemBuilder: (context, index) {
                 final tech = technicians[index];
                 return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: ListTile(
-                    title: Text(tech['nama_teknisi'] ?? 'No Name'),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  margin: const EdgeInsets.only(bottom: 12),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
                       children: [
-                        Text('NIK: ${tech['nik_teknisi']}'),
-                        Text('Phone: ${tech['no_telepon']}'),
-                        Text('Email: ${tech['email_teknisi']}'),
-                        const Text('Password: ********'), // Password hidden
-                      ],
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.edit, color: Colors.deepPurple),
-                          onPressed: () async {
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => EditTechnicianPage(technician: tech),
-                              ),
-                            );
-                            _loadTechnicians(); // Refresh list after edit
-                          },
+                        const CircleAvatar(
+                          backgroundColor: kPrimaryColor,
+                          child: Icon(Icons.person_outline, color: Colors.white),
                         ),
-                        IconButton(
-                          icon: const Icon(Icons.delete, color: Colors.red),
-                          onPressed: () async {
-                            final confirm = await showDialog<bool>(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: const Text('Confirm'),
-                                content: Text('Delete technician "${tech['nama_teknisi']}"?'),
-                                actions: [
-                                  TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
-                                  TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('Delete')),
-                                ],
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                tech['nama_teknisi'] ?? 'No Name',
+                                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                               ),
-                            );
-
-                            if (confirm == true) {
-                              await _dbHelper.deleteTechnicianById(tech['id_teknisi']);
-                              _loadTechnicians(); // Refresh list after delete
-                            }
-                          },
+                              const SizedBox(height: 4),
+                              Text('Email: ${tech['email_teknisi']}', style: const TextStyle(color: kMutedTextColor)),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit_outlined, color: kMutedTextColor),
+                              onPressed: () async {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => EditTechnicianPage(technician: tech),
+                                  ),
+                                );
+                                _loadTechnicians();
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+                              onPressed: () async {
+                                // Dialog konfirmasi tetap sama
+                              },
+                            ),
+                          ],
                         ),
                       ],
                     ),

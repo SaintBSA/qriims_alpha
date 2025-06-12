@@ -14,12 +14,28 @@ dependencies:
   path: ^1.8.0
   path_provider: ^2.0.14
   cupertino_icons: ^1.0.8  # ← moved here
+  intl: ^0.18.1
   # uses-material-design is not a dependency, see below
 
 flutter:
   uses-material-design: true  # ← moved here under flutter
+
   assets:
     - assets/qriims.db
+
+fonts:
+  # - family: harus memiliki 2 spasi lebih dalam dari fonts:
+  - family: Poppins
+    # fonts: (di dalam family) harus memiliki 2 spasi lebih dalam dari - family:
+    fonts:
+      # - asset: harus memiliki 2 spasi lebih dalam dari fonts:
+      - asset: assets/fonts/Poppins-Regular.ttf
+      - asset: assets/fonts/Poppins-Medium.ttf
+        weight: 500
+      - asset: assets/fonts/Poppins-SemiBold.ttf
+        weight: 600
+      - asset: assets/fonts/Poppins-Bold.ttf
+        weight: 700
 
 dev_dependencies:
   flutter_test:

@@ -23,8 +23,6 @@ class _EditEquipmentPageState extends State<EditEquipmentPage> {
     super.initState();
     _namaController = TextEditingController(text: widget.equipment['nama_alat']);
     _merekController = TextEditingController(text: widget.equipment['merek_alat']);
-    // --- PERBAIKAN DI SINI ---
-    // Mengubah nilai integer menjadi String sebelum dimasukkan ke controller
     _seriController = TextEditingController(text: widget.equipment['seri_alat'].toString());
   }
 
@@ -47,7 +45,10 @@ class _EditEquipmentPageState extends State<EditEquipmentPage> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Equipment data updated successfully')),
+          const SnackBar(
+            content: Text('Equipment data updated successfully'),
+            backgroundColor: Colors.green,
+          ),
         );
         Navigator.pop(context);
       }
@@ -58,47 +59,42 @@ class _EditEquipmentPageState extends State<EditEquipmentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Edit Equipment')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              TextFormField(
-                controller: _namaController,
-                decoration: const InputDecoration(labelText: 'Equipment Name'),
-                validator: (value) => value == null || value.isEmpty ? 'Required field' : null,
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _merekController,
-                decoration: const InputDecoration(labelText: 'Brand'),
-                validator: (value) => value == null || value.isEmpty ? 'Required field' : null,
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _seriController,
-                decoration: const InputDecoration(labelText: 'Serial Number'),
-                validator: (value) => value == null || value.isEmpty ? 'Required field' : null,
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  // Menggunakan warna utama dari tema
-                  backgroundColor: Theme.of(context).primaryColor,
-                  // Menggunakan warna teks yang kontras (hitam)
-                  foregroundColor: Colors.white,
-                  // Membuat tombol lebih lebar dan tinggi
-                  minimumSize: const Size(double.infinity, 50),
-                  // Menggunakan radius yang sama dengan tema
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 8),
+                // --- MENGGUNAKAN hintText UNTUK TAMPILAN MODERN ---
+
+                TextFormField(
+                  controller: _namaController,
+                  decoration: const InputDecoration(hintText: 'Equipment Name'),
+                  validator: (value) => value == null || value.isEmpty ? 'Required field' : null,
                 ),
-                onPressed: _updateEquipment,
-                child: const Text('Save Changes'),
-              ),
-            ],
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _merekController,
+                  decoration: const InputDecoration(hintText: 'Brand'),
+                  validator: (value) => value == null || value.isEmpty ? 'Required field' : null,
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _seriController,
+                  decoration: const InputDecoration(hintText: 'Serial Number'),
+                  validator: (value) => value == null || value.isEmpty ? 'Required field' : null,
+                ),
+                const SizedBox(height: 512),
+                // --- TOMBOL SEKARANG OTOMATIS MENGGUNAKAN TEMA BUBBLY ---
+                ElevatedButton(
+                  onPressed: _updateEquipment,
+                  child: const Text('Save Changes'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

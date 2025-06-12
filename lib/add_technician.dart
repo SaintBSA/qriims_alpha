@@ -9,6 +9,7 @@ class AddTechnicianForm extends StatefulWidget {
 }
 
 class _AddTechnicianFormState extends State<AddTechnicianForm> {
+  final _formKey = GlobalKey<FormState>();
   final _namaTeknisiController = TextEditingController();
   final _nikTeknisiController = TextEditingController();
   final _noTeleponController = TextEditingController();
@@ -17,119 +18,104 @@ class _AddTechnicianFormState extends State<AddTechnicianForm> {
 
   final DBHelper _dbHelper = DBHelper();
 
+  Future<void> _submitForm() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    String namaTeknisi = _namaTeknisiController.text.trim();
+    int? nikTeknisi = int.tryParse(_nikTeknisiController.text.trim());
+    int? noTelepon = int.tryParse(_noTeleponController.text.trim());
+    String email = _emailController.text.trim();
+    String password = _passwordController.text;
+
+    try {
+      await _dbHelper.addTechnician(
+        nama: namaTeknisi,
+        nik: nikTeknisi!,
+        noTelepon: noTelepon!,
+        email: email,
+        password: password,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Technician added successfully!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.pop(context);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to add technician: $e'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Technician'),
-        centerTitle: true,
+        title: const Text('Add New Technician'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              const SizedBox(height: 16),
-              TextField(
-                controller: _namaTeknisiController,
-                decoration: const InputDecoration(
-                  labelText: 'Technician Name',
-                  border: OutlineInputBorder(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _namaTeknisiController,
+                  decoration: const InputDecoration(hintText: 'Technician Name'),
+                  validator: (value) => value == null || value.isEmpty ? 'This field is required' : null,
                 ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _nikTeknisiController,
-                decoration: const InputDecoration(
-                  labelText: 'NIK',
-                  border: OutlineInputBorder(),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _nikTeknisiController,
+                  decoration: const InputDecoration(hintText: 'NIK'),
+                  keyboardType: TextInputType.number,
+                  validator: (value) => value == null || value.isEmpty ? 'This field is required' : null,
                 ),
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _noTeleponController,
-                keyboardType: TextInputType.phone,
-                decoration: const InputDecoration(
-                  labelText: 'Phone Number',
-                  border: OutlineInputBorder(),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _noTeleponController,
+                  keyboardType: TextInputType.phone,
+                  decoration: const InputDecoration(hintText: 'Phone Number'),
+                  validator: (value) => value == null || value.isEmpty ? 'This field is required' : null,
                 ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(hintText: 'Email'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return 'This field is required';
+                    if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) return 'Please enter a valid email';
+                    return null;
+                  },
                 ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: const InputDecoration(hintText: 'Password'),
+                  validator: (value) => value == null || value.isEmpty ? 'This field is required' : null,
                 ),
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
+                const SizedBox(height: 32),
+                ElevatedButton(
+                  onPressed: _submitForm,
+                  child: const Text('Add Technician'),
                 ),
-                onPressed: () async {
-                  String namaTeknisi = _namaTeknisiController.text.trim();
-                  int? nikTeknisi = int.tryParse(_nikTeknisiController.text.trim());
-                  int? noTelepon = int.tryParse(_noTeleponController.text.trim());
-                  String email = _emailController.text.trim();
-                  String password = _passwordController.text;
-
-                  if (namaTeknisi.isEmpty || nikTeknisi == null || noTelepon == null || email.isEmpty || password.isEmpty) {
-                    _showSnackBar(context, 'Please fill in all fields correctly.', isError: true);
-                    return;
-                  }
-
-                  try {
-                    await _dbHelper.addTechnician(
-                      nama: namaTeknisi,
-                      nik: nikTeknisi,
-                      noTelepon: noTelepon,
-                      email: email,
-                      password: password,
-                    );
-
-                    _showSnackBar(context, 'Technician added successfully!');
-                    _namaTeknisiController.clear();
-                    _nikTeknisiController.clear();
-                    _noTeleponController.clear();
-                    _emailController.clear();
-                    _passwordController.clear();
-                  } catch (e) {
-                    _showSnackBar(context, 'Failed to add technician: $e', isError: true);
-                  }
-                },
-                child: const Text('Add Technician'),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
-
-  void _showSnackBar(BuildContext context, String message, {bool isError = false}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: isError ? Colors.redAccent : Colors.green,
-        behavior: SnackBarBehavior.floating,
       ),
     );
   }

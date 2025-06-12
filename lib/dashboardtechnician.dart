@@ -15,7 +15,7 @@ class _TechnicianDashboardPageState extends State<TechnicianDashboardPage> {
   final _deskripsiController = TextEditingController();
 
   List<Map<String, dynamic>> _peralatanList = [];
-  int? _selectedAlatId; // Changed to store the ID
+  int? _selectedAlatId;
 
   @override
   void initState() {
@@ -36,7 +36,10 @@ class _TechnicianDashboardPageState extends State<TechnicianDashboardPage> {
 
     if (_selectedAlatId == null || kategori.isEmpty || deskripsi.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please fill in all fields")),
+        const SnackBar(
+          content: Text("Please fill in all fields"),
+          backgroundColor: Colors.orangeAccent,
+        ),
       );
       return;
     }
@@ -58,13 +61,16 @@ class _TechnicianDashboardPageState extends State<TechnicianDashboardPage> {
       // Reset form
       setState(() {
         _selectedAlatId = null;
+        _kategoriController.clear();
+        _deskripsiController.clear();
       });
-      _kategoriController.clear();
-      _deskripsiController.clear();
       FocusScope.of(context).unfocus(); // Dismiss keyboard
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Failed to submit data: $e")),
+        SnackBar(
+          content: Text("Failed to submit data: $e"),
+          backgroundColor: Colors.redAccent,
+        ),
       );
     }
   }
@@ -83,27 +89,33 @@ class _TechnicianDashboardPageState extends State<TechnicianDashboardPage> {
         title: const Text('Technician Input'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
+            icon: const Icon(Icons.logout_rounded),
             tooltip: 'Logout',
             onPressed: () => _confirmLogout(context),
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const SizedBox(height: 16),
               DropdownButtonFormField<int>(
                 value: _selectedAlatId,
                 decoration: const InputDecoration(
-                  labelText: 'Select Equipment',
-                  border: OutlineInputBorder(),
+                  hintText: 'Select Equipment',
                 ),
+                icon: const Icon(Icons.arrow_drop_down_rounded, color: kMutedTextColor),
+                dropdownColor: kSurfaceColor,
                 items: _peralatanList.map((alat) {
                   return DropdownMenuItem<int>(
                     value: alat['id_alat'],
-                    child: Text(alat['nama_alat']),
+                    child: Text(
+                      alat['nama_alat'],
+                      style: const TextStyle(color: kTextColor, fontWeight: FontWeight.w500),
+                    ),
                   );
                 }).toList(),
                 onChanged: (value) {
@@ -113,35 +125,25 @@ class _TechnicianDashboardPageState extends State<TechnicianDashboardPage> {
                 },
               ),
               const SizedBox(height: 16),
-              TextField(
+              TextFormField(
                 controller: _kategoriController,
                 decoration: const InputDecoration(
-                  labelText: 'Category',
-                  border: OutlineInputBorder(),
+                  hintText: 'Category (e.g., Maintenance, Repair)',
                 ),
               ),
               const SizedBox(height: 16),
-              TextField(
+              TextFormField(
                 controller: _deskripsiController,
                 maxLines: 5,
                 decoration: const InputDecoration(
-                  labelText: 'Description',
-                  border: OutlineInputBorder(),
+                  hintText: 'Description of work done...',
                   alignLabelWithHint: true,
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 32),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
                 onPressed: _submitForm,
-                child: const Text('Submit'),
+                child: const Text('Submit Report'),
               ),
             ],
           ),
@@ -154,12 +156,14 @@ class _TechnicianDashboardPageState extends State<TechnicianDashboardPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Confirm Logout'),
-        content: const Text('Are you sure you want to log out?'),
+        backgroundColor: kSurfaceColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Text('Confirm Logout', style: TextStyle(fontWeight: FontWeight.w600)),
+        content: const Text('Are you sure you want to log out?', style: TextStyle(color: kMutedTextColor)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: const Text('Cancel', style: TextStyle(color: kMutedTextColor)),
           ),
           TextButton(
             onPressed: () {
@@ -168,7 +172,7 @@ class _TechnicianDashboardPageState extends State<TechnicianDashboardPage> {
                 MaterialPageRoute(builder: (context) => const LoginPage()),
               );
             },
-            child: const Text('Logout'),
+            child: const Text('Logout', style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold)),
           ),
         ],
       ),

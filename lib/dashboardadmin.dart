@@ -12,115 +12,56 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dashboard'),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const SizedBox(height: 32),
-            const CircleAvatar(
-              radius: 50,
-              backgroundColor: Colors.grey,
-              child: Icon(
-                Icons.person,
-                size: 60,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Admin',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-              ),
-            ),
-            const SizedBox(height: 32),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                children: <Widget>[
-                  _buildDashboardButton(context, 'Add Machine', Icons.add_circle_outline, () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const AddEquipmentForm()),
-                    );
-                  }),
-                  _buildDashboardButton(context, 'Add Technician', Icons.person_add_outlined, () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const AddTechnicianForm()),
-                    );
-                  }),
-                  _buildDashboardButton(context, 'View Machines', Icons.devices_outlined, () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const ViewPeralatanPage()),
-                    );
-                  }),
-                  _buildDashboardButton(context, 'View Technicians', Icons.people_outline, () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const ViewTechniciansPage()),
-                    );
-                  }),
-                  _buildDashboardButton(context, 'Technician Input History', Icons.history_outlined, () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const ViewHistoryPage()),
-                    );
-                  }),
-                  _buildDashboardButton(context, 'Log Out', Icons.logout, () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      ),
-                    );
-                  }),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDashboardButton(BuildContext context, String title, IconData icon, VoidCallback onPressed) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        backgroundColor: Colors.grey[200],
-        foregroundColor: Colors.black87,
-        elevation: 2,
-      ),
-      child: Center(
+      body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Icon(
-                icon,
-                size: 30,
-              ),
+              const SizedBox(height: 20),
+              const Text('Welcome Back, Admin!', style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
+              const Text('Main Dashboard', style: TextStyle(fontSize: 16, color: kMutedTextColor)),
+              const SizedBox(height: 60),
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  children: <Widget>[
+                    _DashboardButton(
+                      title: 'Add Machine',
+                      icon: Icons.add_to_queue_rounded,
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AddEquipmentForm())),
+                    ),
+                    _DashboardButton(
+                      title: 'Add Technician',
+                      icon: Icons.person_add_alt_1_rounded,
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AddTechnicianForm())),
+                    ),
+                    _DashboardButton(
+                      title: 'View Machines',
+                      icon: Icons.devices_other_rounded,
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ViewPeralatanPage())),
+                    ),
+                    _DashboardButton(
+                      title: 'View Technicians',
+                      icon: Icons.people_alt_rounded,
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ViewTechniciansPage())),
+                    ),
+                    _DashboardButton(
+                      title: 'Input History',
+                      icon: Icons.history_rounded,
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ViewHistoryPage())),
+                    ),
+                    _DashboardButton(
+                      title: 'Log Out',
+                      icon: Icons.logout_rounded,
+                      onTap: () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const LoginPage())),
+                      isLogout: true,
+                    ),
+                  ],
                 ),
-                textAlign: TextAlign.center,
               ),
             ],
           ),
@@ -128,24 +69,62 @@ class DashboardPage extends StatelessWidget {
       ),
     );
   }
+}
 
-  void _showNotImplementedDialog(BuildContext context, String title) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Not Implemented'),
-          content: Text('The "$title" functionality is not yet implemented.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
+// Custom widget untuk tombol dashboard yang lebih bubbly
+class _DashboardButton extends StatefulWidget {
+  final String title;
+  final IconData icon;
+  final VoidCallback onTap;
+  final bool isLogout;
+
+  const _DashboardButton({
+    required this.title,
+    required this.icon,
+    required this.onTap,
+    this.isLogout = false,
+  });
+
+  @override
+  State<_DashboardButton> createState() => _DashboardButtonState();
+}
+
+class _DashboardButtonState extends State<_DashboardButton> {
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = widget.isLogout ? Colors.red.shade400 : Theme.of(context).primaryColor;
+
+    return GestureDetector(
+      onTapDown: (_) => setState(() => _isPressed = true),
+      onTapUp: (_) => setState(() => _isPressed = false),
+      onTapCancel: () => setState(() => _isPressed = false),
+      onTap: widget.onTap,
+      child: AnimatedScale(
+        scale: _isPressed ? 0.95 : 1.0,
+        duration: const Duration(milliseconds: 150),
+        child: Card(
+          color: widget.isLogout ? Colors.red.withOpacity(0.1) : kSurfaceColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+            side: widget.isLogout ? BorderSide(color: color, width: 1) : BorderSide.none,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(widget.icon, size: 40, color: color),
+              const SizedBox(height: 12),
+              Text(
+                widget.title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
+

@@ -1,7 +1,7 @@
-// lib/view_history.dart
-
 import 'package:flutter/material.dart';
-import 'db_helper.dart'; // Pastikan path ini benar
+import 'package:intl/intl.dart';
+import 'db_helper.dart';
+import 'login.dart';
 
 class ViewHistoryPage extends StatefulWidget {
   const ViewHistoryPage({super.key});
@@ -24,7 +24,7 @@ class _ViewHistoryPageState extends State<ViewHistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Technician Input History'),
+        title: const Text('Input History'),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _historyFuture,
@@ -34,49 +34,71 @@ class _ViewHistoryPageState extends State<ViewHistoryPage> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No history found.'));
+            return const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.history_toggle_off, size: 60, color: kMutedTextColor),
+                  SizedBox(height: 16),
+                  Text('No History Found', style: TextStyle(fontSize: 18, color: kMutedTextColor)),
+                ],
+              ),
+            );
           } else {
             final historyList = snapshot.data!;
             return ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               itemCount: historyList.length,
               itemBuilder: (context, index) {
                 final item = historyList[index];
-                // Format tanggal agar lebih mudah dibaca
                 final DateTime recordDate = DateTime.parse(item['tanggal_input']);
-                final String formattedDate =
-                    "${recordDate.day}/${recordDate.month}/${recordDate.year} ${recordDate.hour}:${recordDate.minute.toString().padLeft(2, '0')}";
+                final String formattedDate = DateFormat('d MMM yy, HH:mm').format(recordDate);
 
-                return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item['nama_alat'] ?? 'Unknown Equipment',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                return AnimatedListItem(
+                  index: index,
+                  child: Card(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  item['nama_alat'] ?? 'Unknown Equipment',
+                                  style: const TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                formattedDate,
+                                style: const TextStyle(fontSize: 12, color: kMutedTextColor),
+                              ),
+                            ],
                           ),
-                        ),
-                        Text('Brand: ${item['merek_alat'] ?? 'N/A'}'),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Category: ${item['kategori']}',
-                          style: const TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        const SizedBox(height: 4),
-                        Text('Description: ${item['deskripsi']}'),
-                        const Divider(height: 20),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Text(
-                            'Input Date: $formattedDate',
-                            style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Serial No : ${item['seri_alat'] ?? 'N/A'}',
+                            style: const TextStyle(color: kMutedTextColor, fontSize: 13),
                           ),
-                        ),
-                      ],
+                          // --- ERROR FIXED HERE: `const` removed ---
+                          Divider(height: 24, color: kMutedTextColor.withOpacity(0.2)),
+                          Text(
+                            'Category : ${item['kategori']}',
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            item['deskripsi'],
+                            style: const TextStyle(color: kMutedTextColor, height: 1.5),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -84,6 +106,62 @@ class _ViewHistoryPageState extends State<ViewHistoryPage> {
             );
           }
         },
+      ),
+    );
+  }
+}
+
+// Custom animation widget for list items
+class AnimatedListItem extends StatefulWidget {
+  final Widget child;
+  final int index;
+
+  const AnimatedListItem({super.key, required this.child, required this.index});
+
+  @override
+  State<AnimatedListItem> createState() => _AnimatedListItemState();
+}
+
+class _AnimatedListItemState extends State<AnimatedListItem> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
+    );
+    _slideAnimation = Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
+
+    Future.delayed(Duration(milliseconds: widget.index * 70), () {
+      if (mounted) {
+        _controller.forward();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: SlideTransition(
+        position: _slideAnimation,
+        child: widget.child,
       ),
     );
   }
