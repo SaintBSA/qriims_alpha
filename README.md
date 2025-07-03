@@ -1,11 +1,4 @@
-# QRIIMS - QR-Based Industrial Inspection & Maintenance System
-
-![QRIIMS Banner](httpse://user-images.githubusercontent.com/username/repo/banner.png) <p align="center">
-  <img src="https://img.shields.io/badge/platform-Android-brightgreen.svg" alt="Platform Android">
-  <img src="https://img.shields.io/badge/database-SQLite-blue.svg" alt="Database SQLite">
-  <img src="https://img.shields.io/badge/status-proposal-yellow.svg" alt="Status Proyek">
-  <img src="https://img.shields.io/badge/license-MIT-lightgrey.svg" alt="License">
-</p>
+# QRIIMS - QR-Based Inventory Inspection & Maintenance System
 
 **QRIIMS** adalah sebuah sistem manajemen dan inspeksi pemeliharaan industri berbasis Android yang dirancang untuk mentransformasi proses pemeliharaan dari reaktif menjadi proaktif. [cite_start]Dengan integrasi QR Code dan algoritma prioritas cerdas, QRIIMS bertujuan meningkatkan efisiensi, akurasi, dan efektivitas pengambilan keputusan di lingkungan manufaktur seperti PT Multi Aneka Pangan Nusantara[cite: 27, 34].
 
