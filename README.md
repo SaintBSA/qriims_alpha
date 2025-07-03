@@ -78,8 +78,8 @@ Dengan algoritma ini, QRIIMS beralih dari sekadar aplikasi pencatatan menjadi **
 
 [cite_start]Proyek ini saat ini berada dalam tahap **proposal** yang diajukan untuk memenuhi syarat Tugas Besar di Universitas Telkom Surabaya[cite: 2]. [cite_start]Pengembangan dan implementasi penuh direncanakan akan selesai pada tahun **2025**[cite: 12, 20].
 
--   [cite_start]**Author:** Bhismo Surya Atmaja [cite: 5, 17]
--   [cite_start]**NIM:** 1202220048 [cite: 4, 17]
+-   **Author:** Bhismo Surya Atmaja
+-   **NIM:** 1202220048
 
 ---
 
