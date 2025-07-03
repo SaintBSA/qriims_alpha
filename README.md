@@ -1,8 +1,8 @@
 # QRIIMS - QR-Based Inventory Inspection & Maintenance System
 
-**QRIIMS** adalah sebuah sistem manajemen dan inspeksi pemeliharaan industri berbasis Android yang dirancang untuk mentransformasi proses pemeliharaan dari reaktif menjadi proaktif. [cite_start]Dengan integrasi QR Code dan algoritma prioritas cerdas, QRIIMS bertujuan meningkatkan efisiensi, akurasi, dan efektivitas pengambilan keputusan di lingkungan manufaktur seperti PT Multi Aneka Pangan Nusantara[cite: 27, 34].
+**QRIIMS** adalah sebuah sistem manajemen riwayat pencatatan dan inspeksi pemeliharaan industri berbasis Android yang dirancang untuk mentransformasi proses pemeliharaan dari reaktif menjadi proaktif. Dengan integrasi QR Code dan algoritma prioritas cerdas, QRIIMS bertujuan meningkatkan efisiensi, akurasi, dan efektivitas pengambilan keputusan di lingkungan manufaktur seperti PT Multi Aneka Pangan Nusantara.
 
-[cite_start]Proyek ini merupakan usulan Tugas Besar untuk Program Studi Sarjana Teknologi Informasi, Fakultas Informatika, Universitas Telkom Surabaya[cite: 2, 8, 9, 10, 11].
+Proyek ini merupakan usulan Tugas Besar untuk Program Studi Sarjana Teknologi Informasi, Fakultas Informatika, Universitas Telkom Surabaya.
 
 ---
 
