@@ -8,12 +8,10 @@ Proyek ini merupakan usulan Tugas Besar untuk Program Studi Sarjana Teknologi In
 
 ## ✨ Fitur Utama
 
--   [cite_start]**📱 Manajemen Aset Digital:** Tambah, lihat, edit, dan hapus data peralatan produksi secara terpusat dan digital[cite: 147, 158].
--   [cite_start]**🔗 Integrasi QR Code Cepat:** Lakukan identifikasi alat secara instan hanya dengan memindai QR Code unik yang terpasang pada setiap aset fisik[cite: 152, 153].
--   **🧠 Prioritas Perbaikan Cerdas (TUP):** Inovasi inti kami! Sistem secara otomatis menghitung **Tingkat Urgensi Perbaikan (TUP)** untuk setiap laporan, memastikan teknisi selalu fokus pada masalah yang paling kritis terlebih dahulu.
--   **📊 Dashboard Prioritas Interaktif:** Halaman utama yang menampilkan daftar semua peralatan, diurutkan secara otomatis berdasarkan skor TUP tertinggi dan dilengkapi kode warna (Merah, Kuning, Hijau) untuk pemahaman cepat.
--   [cite_start]**📋 Riwayat Kondisi Lengkap:** Lacak seluruh riwayat pencatatan dan pemeliharaan untuk setiap alat secara kronologis dan terstruktur[cite: 156, 157].
--   [cite_start]**🔐 Autentikasi Pengguna:** Sistem login yang aman untuk memastikan hanya admin dan teknisi yang berwenang yang dapat mengakses dan mengelola data[cite: 144].
+-   **📱 Manajemen Aset Digital:** Tambah, lihat, edit, dan hapus data peralatan produksi secara terpusat dan digital.
+-   **🔗 Integrasi QR Code Cepat:** Lakukan identifikasi alat secara instan hanya dengan memindai QR Code unik yang terpasang pada setiap aset fisik.
+-   **📋 Riwayat Kondisi Lengkap:** Lacak seluruh riwayat pencatatan dan pemeliharaan untuk setiap alat secara kronologis dan terstruktur.
+-   **🔐 Autentikasi Pengguna:** Sistem login yang aman untuk memastikan hanya admin dan teknisi yang berwenang yang dapat mengakses dan mengelola data.
 
 ---
 
