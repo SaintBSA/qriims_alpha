@@ -43,9 +43,3 @@ Proyek ini saat ini berada dalam tahap **proposal** yang diajukan untuk memenuhi
 
 -   **Author:** Bhismo Surya Atmaja
 -   **NIM:** 1202220048
-
----
-
-## 📄 Lisensi
-
-Proyek ini dilisensikan di bawah [Lisensi MIT](LICENSE).
