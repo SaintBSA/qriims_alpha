@@ -1,16 +1,97 @@
-# qriims
+# QRIIMS - QR-Based Industrial Inspection & Maintenance System
 
-A new Flutter project.
+![QRIIMS Banner](httpse://user-images.githubusercontent.com/username/repo/banner.png) <p align="center">
+  <img src="https://img.shields.io/badge/platform-Android-brightgreen.svg" alt="Platform Android">
+  <img src="https://img.shields.io/badge/database-SQLite-blue.svg" alt="Database SQLite">
+  <img src="https://img.shields.io/badge/status-proposal-yellow.svg" alt="Status Proyek">
+  <img src="https://img.shields.io/badge/license-MIT-lightgrey.svg" alt="License">
+</p>
 
-## Getting Started
+**QRIIMS** adalah sebuah sistem manajemen dan inspeksi pemeliharaan industri berbasis Android yang dirancang untuk mentransformasi proses pemeliharaan dari reaktif menjadi proaktif. [cite_start]Dengan integrasi QR Code dan algoritma prioritas cerdas, QRIIMS bertujuan meningkatkan efisiensi, akurasi, dan efektivitas pengambilan keputusan di lingkungan manufaktur seperti PT Multi Aneka Pangan Nusantara[cite: 27, 34].
 
-This project is a starting point for a Flutter application.
+[cite_start]Proyek ini merupakan usulan Tugas Besar untuk Program Studi Sarjana Teknologi Informasi, Fakultas Informatika, Universitas Telkom Surabaya[cite: 2, 8, 9, 10, 11].
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## ✨ Fitur Utama
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+-   [cite_start]**📱 Manajemen Aset Digital:** Tambah, lihat, edit, dan hapus data peralatan produksi secara terpusat dan digital[cite: 147, 158].
+-   [cite_start]**🔗 Integrasi QR Code Cepat:** Lakukan identifikasi alat secara instan hanya dengan memindai QR Code unik yang terpasang pada setiap aset fisik[cite: 152, 153].
+-   **🧠 Prioritas Perbaikan Cerdas (TUP):** Inovasi inti kami! Sistem secara otomatis menghitung **Tingkat Urgensi Perbaikan (TUP)** untuk setiap laporan, memastikan teknisi selalu fokus pada masalah yang paling kritis terlebih dahulu.
+-   **📊 Dashboard Prioritas Interaktif:** Halaman utama yang menampilkan daftar semua peralatan, diurutkan secara otomatis berdasarkan skor TUP tertinggi dan dilengkapi kode warna (Merah, Kuning, Hijau) untuk pemahaman cepat.
+-   [cite_start]**📋 Riwayat Kondisi Lengkap:** Lacak seluruh riwayat pencatatan dan pemeliharaan untuk setiap alat secara kronologis dan terstruktur[cite: 156, 157].
+-   [cite_start]**🔐 Autentikasi Pengguna:** Sistem login yang aman untuk memastikan hanya admin dan teknisi yang berwenang yang dapat mengakses dan mengelola data[cite: 144].
+
+---
+
+## 💡 Inovasi Utama: Algoritma TUP
+
+Masalah utama dalam pemeliharaan bukanlah sekadar "apa" yang rusak, melainkan "mana" yang harus diperbaiki terlebih dahulu. QRIIMS menjawab ini dengan **Algoritma Tingkat Urgensi Perbaikan (TUP)**.
+
+Algoritma ini memberikan skor objektif pada setiap laporan kerusakan dengan menganalisis tiga faktor utama:
+
+1.  **Status Kondisi Terkini:** Bobot tertinggi diberikan pada kerusakan berat.
+2.  **Frekuensi Kerusakan:** Mengidentifikasi masalah kronis yang sering berulang.
+3.  **Kekritisan Alat:** Membedakan dampak kerusakan antara mesin produksi utama dengan alat pendukung.
+
+Rumus yang digunakan:
+$$ \text{Skor TUP} = (P_{\text{kondisi}} \times W_{\text{kondisi}}) + (P_{\text{frekuensi}} \times W_{\text{frekuensi}}) + (P_{\text{kritis}} \times W_{\text{kritis}}) $$
+
+Dengan algoritma ini, QRIIMS beralih dari sekadar aplikasi pencatatan menjadi **sistem pendukung keputusan** yang cerdas.
+
+---
+
+## 🛠️ Teknologi yang Digunakan
+
+-   [cite_start]**Platform:** Android (Java/Kotlin) [cite: 130]
+-   [cite_start]**Database:** SQLite (untuk penyimpanan data lokal yang ringan dan cepat) [cite: 133, 134]
+-   [cite_start]**QR Code Scanner:** ZXing (Zebra Crossing) Library [cite: 136]
+-   [cite_start]**Arsitektur Data:** CRUD (Create, Read, Update, Delete) [cite: 138]
+
+---
+
+## 📸 Tampilan Aplikasi
+
+[cite_start]Berikut adalah beberapa contoh desain antarmuka aplikasi yang diusulkan[cite: 249, 250]:
+
+| Dashboard Prioritas | Halaman Detail Alat | Form Laporan |
+| :-----------------: | :-----------------: | :------------: |
+| ![Dashboard](httpse://user-images.githubusercontent.com/username/repo/dashboard.png) | ![Detail](httpse://user-images.githubusercontent.com/username/repo/detail.png) | ![Form](httpse://user-images.githubusercontent.com/username/repo/form.png) |
+| *(Contoh Visualisasi)* | *(Contoh Visualisasi)* | *(Contoh Visualisasi)* |
+
+---
+
+## 🚀 Cara Menjalankan Proyek
+
+1.  **Prasyarat:**
+    -   Android Studio (versi terbaru direkomendasikan).
+    -   JDK (Java Development Kit).
+
+2.  **Clone Repositori:**
+    ```bash
+    git clone [https://github.com/username/qriims.git](https://github.com/username/qriims.git)
+    ```
+
+3.  **Buka di Android Studio:**
+    -   Buka Android Studio.
+    -   Pilih `Open an existing Android Studio project`.
+    -   Arahkan ke direktori tempat Anda meng-clone repositori.
+
+4.  **Build Proyek:**
+    -   Biarkan Gradle melakukan sinkronisasi.
+    -   Jalankan proyek pada emulator atau perangkat Android fisik.
+
+---
+
+## 📈 Status Proyek
+
+[cite_start]Proyek ini saat ini berada dalam tahap **proposal** yang diajukan untuk memenuhi syarat Tugas Besar di Universitas Telkom Surabaya[cite: 2]. [cite_start]Pengembangan dan implementasi penuh direncanakan akan selesai pada tahun **2025**[cite: 12, 20].
+
+-   [cite_start]**Author:** Bhismo Surya Atmaja [cite: 5, 17]
+-   [cite_start]**NIM:** 1202220048 [cite: 4, 17]
+
+---
+
+## 📄 Lisensi
+
+Proyek ini dilisensikan di bawah [Lisensi MIT](LICENSE).
