@@ -23,7 +23,7 @@ Proyek ini merupakan usulan Tugas Besar untuk Program Studi Sarjana Teknologi In
 
 2.  **Clone Repositori:**
     ```bash
-    git clone [https://github.com/username/qriims.git](https://github.com/username/qriims.git)
+    git clone [https://github.com/saintBSA/qriims.git](https://github.com/saintBSA/qriims.git)
     ```
 
 3.  **Buka di Android Studio:**
